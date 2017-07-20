@@ -28,7 +28,7 @@
 
 <script>
 import { MessageBox } from 'mint-ui';
-
+import { requestLogout } from '../../api/api';
 export default {
     name: 'user-index',
     data () {
@@ -59,6 +59,10 @@ export default {
             MessageBox.confirm('是否退出登录?').then(action => {
                 vm.util.openIndicator();
                 // 退出登录操作  +++++ 
+                
+                requestLogout().then(data => {
+                    console.log(data)
+                })
                 setTimeout(function (){
                     // 退出登录后操作  +++++ 
                     vm.util.closeIndicator();

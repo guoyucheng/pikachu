@@ -7,7 +7,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         isLogin: false,
-        userinfo: {}
+        userinfo: {},
+        title: ""
 
     },  
     actions: {
@@ -26,7 +27,10 @@ const store = new Vuex.Store({
             state.isLogin = flag ;
             state.userinfo = '';
             sessionStorage.clear();
-      	}
+      	},
+        setTitle(state, title) {
+            state.title = title;
+        }
     }
 })
 

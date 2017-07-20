@@ -16,7 +16,7 @@ export default {
         return {
             headdata: {
                 showleft: true,
-                title: '标题',
+                title: '聚合平台',
                 showright:{
                     showthis: false,
                     router: '',
@@ -29,6 +29,7 @@ export default {
         'head',
     ],
     mounted(){
+        console.log(this.head,"<<<<<<")
         if(this.head.showleft != undefined){
             this.headdata.showleft = this.head.showleft;
         }

@@ -37,17 +37,22 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'core',
+    'account',
+    'plateform'
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
+    #'core.middleware.AllowMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+    # 'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'pikachu.urls'
@@ -76,11 +81,22 @@ WSGI_APPLICATION = 'pikachu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pikachu',
+        'USER': 'root',
+        'PASSWORD': 'IamWolf4you',
+        'HOST': 'rm-bp188zh2s1v02v2zoo.mysql.rds.aliyuncs.com',
+        'PORT': '3306',
+    },
+    'live': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'live',
+        'USER': 'root',
+        'PASSWORD': 'IamWolf4you',
+        'HOST': 'rm-bp188zh2s1v02v2zoo.mysql.rds.aliyuncs.com',
+        'PORT': '3306',
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -100,3 +116,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost',
+    'http://localhost:8080',
+    'localhost:8080',
+    'http://localhost:8010',
+)

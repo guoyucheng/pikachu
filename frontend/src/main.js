@@ -4,13 +4,14 @@ import App from '@/App'
 import router from '@/library/router'
 import store from '@/library/vuex'
 import mint from '@/library/mint'
-
+import VueVideoPlayer from 'vue-video-player'
 
 /* axios >> https://www.npmjs.com/package/axios */
 import axiosJs from 'axios'
 axiosJs.defaults.timeout = 50000;
 Vue.prototype.axios = axiosJs
 
+Vue.use(VueVideoPlayer)
 
 /* UtilJS */
 import UtilJS from './assets/js/util.js'

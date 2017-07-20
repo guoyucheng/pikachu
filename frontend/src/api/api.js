@@ -7,7 +7,9 @@ if (isProduction) {
 }
 
 
-// export const requestLogin = params => { return axios.post(`${base}/rest/account/api/login`,  querystring.stringify(params)).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/account/login/`,  querystring.stringify(params)).then(res => res.data); };
+
+export const requestLogout= params => { return axios.get(`${base}/account/logout/`).then(res => res.data); };
 
 // export const getPictureList = params => { 
 //     return axios.get(`${base}/rest/album/api/picture_list?` + querystring.stringify(params)).then(res => res.data); 
@@ -27,4 +29,8 @@ export const getPlateformList = params => {
 
 export const getLiveList = params => {
     return axios.post(`${base}/platform/get_lives/?` , querystring.stringify(params)).then(res => res.data); 
+} 
+
+export const getLive = params => {
+    return axios.post(`${base}/platform/get_live/?` , querystring.stringify(params)).then(res => res.data); 
 } 

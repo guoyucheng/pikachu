@@ -32,7 +32,6 @@
                     <mt-swipe-item v-for="data in banner" key="data.id">
                         <img :src="data.src">
                     </mt-swipe-item>
-                    
                 </mt-swipe>
 
             </div>

@@ -3,27 +3,23 @@
         <heada :head='head' ></heada>
         
         <div class="wrap">
-            <div class="list_panel_bd clearfix">
-                
-                       <!--  <ul class="typelist-ul3">
-                            <li v-for="data in live_list" key="data.id">
-                                <router-link :to='{name:"musiclist", query:{ id:data.id, title:data.name } }'>
-                                    <img class="typelist-img" :src="data.header_img" onerror="this.src='http://p4.music.126.net/N2whh2Prf0l8QHmCpShrcQ==/19140298416347251.jpg?param=150y150'">
-                                    <p class="typelist-title">{{ data.name }}:{{ data.count }}</p>
-                                </router-link>
-                            </li>
-                        </ul> -->
-
-                <div v-for="data in live_list" key="data.id" class="list_box">
-                         <div class="list_pic">
-                                 <img class="typelist-img" :src="data.header_img" onerror="this.src='http://p4.music.126.net/N2whh2Prf0l8QHmCpShrcQ==/19140298416347251.jpg?param=150y150'">
-                         </div>
-                         <div class="list_user_info">
-                                <span class="list_user_head" style="background-image: url(data.header_img)"></span>
-                                <span class="list_user_name">{{ data.name }}</span>
-                            </div>
-                </div>
-                
+             <div class="music-banner">
+                <mt-swipe :auto="3000">
+                    <mt-swipe-item v-for="data in banner" key="data.id">
+                        <img :src="data.src">
+                    </mt-swipe-item>
+                </mt-swipe>
+            </div>
+           <div class="typewrap">
+                <div class="type-title">平台名称：{{ head.title }}</div>
+                <ul class="typelist-ul3">
+                    <li v-for="data in live_list" key="data.id">
+                        <a href="JavaScript:" @click="play(data.id)">
+                            <img class="typelist-img" :src="data.header_img" onerror="this.src='http://osrj8qkqk.bkt.clouddn.com/%E9%BB%98%E8%AE%A4%E5%9B%BE%E7%89%87.jpg'">
+                            <p class="typelist-title">{{ data.name }}:{{ data.count }}</p>
+                        </a>
+                    </li>
+                </ul>
             </div>
 
         </div>
@@ -34,7 +30,7 @@
 
 <script>
 import heada from  "@/components/Head.vue"
-import { getLiveList } from '../../api/api';
+import { getLiveList, getLive } from '../../api/api';
 export default {
     name: 'music-musiclist',
     components: {
@@ -43,17 +39,21 @@ export default {
     data () {
         return {
             head:{
-                title:'音乐榜'
             },
             live_list: [],
+            banner: [
+                {'id':1, 'src':'http://p4.music.126.net/kXn-DuZHpWUt92wtn-kdJg==/18922595114158461.jpg'},
+                {'id':2, 'src':'http://p3.music.126.net/OrppkkA9uzaq7w4m4M0hyQ==/18734578627590227.jpg'},
+                {'id':3, 'src':'http://p3.music.126.net/ByeFpfshMXvOjnaiy886ug==/18888510253690479.jpg'},
+                {'id':4, 'src':'http://p4.music.126.net/Fnw_tQevNEQFpN0V_Sx_kw==/18917097556020132.jpg'},
+  
+            ],
 
         }
     },
     mounted(){
         console.log(this.$route.query)
-        this.head= {
-            title : this.$route.query.title
-        }
+        this.head.title =  this.$route.query.title
         console.log(this.head)
         this.LiveList();        
     },
@@ -64,6 +64,13 @@ export default {
                 console.log(this.live_list)
             })
         },
+        play(id){
+            console.log(">>>>>D>>>>>",id);
+            getLive({id: id}).then(data=>{
+                
+                console.log(data)
+            })
+        },
 
     }
 }
@@ -71,40 +78,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.clearfix:before, .clearfix:after {
-    content: " ";
-    display: table;
+/* 音乐榜 banner  */
+.music-banner{
+    height: 200px;
 }
-.clearfix:after {
-    clear: both;
-}
-.clearfix:before, .clearfix:after {
-    content: " ";
-    display: table;
-}
-.list_box {
+.music-banner img{
+    width: 100%;
+    height: 100%;
     float: left;
-    margin-right: 11px;
-    margin-bottom: 10px;
-    width: 150px;
-    background-color: #fff;
-    box-shadow: 0 0 3px #ddd;
 }
-.list_pic {
-    overflow: hidden;
-    position: relative;
+
+
+/* 音乐榜分类  */
+.typewrap{
+    border-bottom: 1px solid #ccc;
 }
-.list_user_info {
-    padding: 15px 0 5px;
-}
-user agent stylesheet
-div {
-    display: block;
-}
-live.css:1
-.list_pic, .list_pic a {
-    color: #fff;
-    cursor: pointer;
+.type-title{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    margin: 0.6rem 0;
+    padding: 0 0.6rem;
+    border-left: 5px solid red;
 }
 .typelist-ul2, .typelist-ul3{
     width: 96%;
@@ -123,6 +117,23 @@ live.css:1
 }
 .typelist-ul3 li{
     width: 29%;  
+}
+.typelist-img{
+    width: 100%;
+}
+.typelist-title{
+    height: 1.5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    font-size: 1rem;
+    padding: 0 0.4rem
+}
+.typelist-updatetime{
+    position: absolute;
+    left: 0.6rem;
+    top: 0.3rem;
+    color: #666;
+    font-size: 0.8rem;
 }
 
 </style>

@@ -26,7 +26,7 @@
 
 <script>
 import heada from  "@/components/Head.vue"
-
+import { requestLogin } from '../../api/api';
 export default {
     name: 'login',
     components: {
@@ -61,36 +61,56 @@ export default {
                 vm.util.showToast("不能为空！");
             }
             else{
-                let userinfo = [];
-                if(!isNull(localStorage.getItem('userinfo'))){
-                    userinfo = JSON.parse(localStorage.getItem('userinfo'));
-                }
-                //console.log(userinfo.length)
-                let i = 0;
-                while (i < userinfo.length)
-                {
-                    if(userinfo[i].username == name){
-                        if(userinfo[i].userpass == pass){
-                            vm.util.openIndicator();
-                            // 成功后操作 
-                            setTimeout(function (){
-                                vm.util.closeIndicator();
-                                vm.$store.commit('login',true);
-                                vm.$store.commit('setUser',JSON.stringify(userinfo[i]));
-                                vm.$router.push('/user');
-                                vm.util.showToast("登录成功！");
-                            }, 1000);
-                        }
-                        else{
-                            vm.util.showToast("密码错误！");
-                        }
-                        return ;
-                    }
-                    i++;
-                    if(i == userinfo.length){
-                        vm.util.showToast("账号不存在！");
-                    }
-                }   
+                var loginParams = { username: name, password: pass };
+                requestLogin(loginParams).then(data => {
+                    console.log(data)
+                    let { msg, code, user } = data;
+                    if (code !== 200) {
+                      vm.util.showToast(data.data.msg);
+                    //  this.login_actions.disabled = false;
+                      } else {
+                        vm.util.openIndicator();
+                        // 成功后操作 
+                        setTimeout(function (){
+                            vm.util.closeIndicator();
+                            vm.$store.commit('login',true);
+                            vm.$store.commit('setUser',JSON.stringify(loginParams));
+                            vm.$router.push('/user');
+                            vm.util.showToast("登录成功！");
+                        }, 1000);
+
+                      }
+                });
+                // let userinfo = [];
+                // if(!isNull(localStorage.getItem('userinfo'))){
+                //     userinfo = JSON.parse(localStorage.getItem('userinfo'));
+                // }
+                // //console.log(userinfo.length)
+                // let i = 0;
+                // while (i < userinfo.length)
+                // {
+                //     if(userinfo[i].username == name){
+                //         if(userinfo[i].userpass == pass){
+                //             vm.util.openIndicator();
+                //             // 成功后操作 
+                //             setTimeout(function (){
+                //                 vm.util.closeIndicator();
+                //                 vm.$store.commit('login',true);
+                //                 vm.$store.commit('setUser',JSON.stringify(userinfo[i]));
+                //                 vm.$router.push('/user');
+                //                 vm.util.showToast("登录成功！");
+                //             }, 1000);
+                //         }
+                //         else{
+                //             vm.util.showToast("密码错误！");
+                //         }
+                //         return ;
+                //     }
+                //     i++;
+                //     if(i == userinfo.length){
+                //         vm.util.showToast("账号不存在！");
+                //     }
+                // }   
             }
         }
         
